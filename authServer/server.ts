@@ -1,4 +1,5 @@
 import Koa from "koa"
+import bodyparser from "koa-bodyparser"
 import cors from "@koa/cors"
 import 'dotenv/config'
 
@@ -11,6 +12,7 @@ const PORT = process.env.PORT || 3000
 
 async function main() {
   const app = new Koa()
+  app.use(bodyparser())
   app.use(cors())
   app.use(authRouter.routes())
 

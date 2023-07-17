@@ -1,7 +1,8 @@
 import Koa from "koa"
 
 const RegisterUser = async (ctx: Koa.Context) => {
-  console.log(ctx)
+  //console.log(ctx)
+  console.log(ctx.request.body)
 }
 
 const LoginUser = async (ctx: Koa.Context) => {
