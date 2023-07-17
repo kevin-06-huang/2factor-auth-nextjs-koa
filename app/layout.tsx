@@ -1,6 +1,9 @@
 import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+import dynamic from 'next/dynamic';
+
+const Navbar = dynamic(() => import('@/components/Navbar'));
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -16,7 +19,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <div className='flex flex-col justify-between p-6'>
+          <Navbar />
+        </div> 
+        {children}
+      </body>
     </html>
   )
 }
