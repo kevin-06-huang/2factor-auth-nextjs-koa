@@ -1,9 +1,11 @@
 'use client'
 import Link from "next/link"
 import { useRouter } from 'next/navigation'
+import useStore from "@/store/auth"
 
 export default function Login() {
   const router = useRouter()
+  const store = useStore()
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
     const res = fetch('http://localhost:3000/login', {
@@ -18,6 +20,7 @@ export default function Login() {
     })
     const resBody = await (await res).json()
     if(!resBody.status) {
+      store.setAuthUser(resBody);
       router.push('/profile')
     }
     else
