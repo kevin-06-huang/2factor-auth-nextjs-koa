@@ -14,9 +14,9 @@ export default function Home() {
               <label htmlFor="password" className="block">Password:</label>
               <input type="text" id="password" name="password" className="ml-2"/>
             </div>
-            <div className="flex items-center mt-2 ml-8">
+            <div className="flex items-center mt-2 ml-12">
               <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Register</button>
-              <Link href="/login" className="ml-2 font-light block">I'm a member</Link>
+              <Link href="/login" className="ml-2 font-light block">I&apos;m a member</Link>
             </div>
           </form>
         </div>
