@@ -1,15 +1,17 @@
 'use client'
+import TwoFactorModal from "@/components/TwoFactorModal"
 import useStore from "@/store/auth"
 import { useRouter } from 'next/navigation'
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 
 export default function Profile() {
   const store = useStore()
   const router = useRouter()
   const user = store.authUser
+  const [modal, setModal] = useState(false);
 
   const generateQrCode = async () => {
-    fetch('http://localhost:3000/otp/generate', {
+    const res = fetch('http://localhost:3000/otp/generate', {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -18,6 +20,13 @@ export default function Profile() {
         email: user!.email
       })
     })
+
+    const resBody = await (await res).json()
+    if(!resBody.status) {
+      setModal(true)
+    }
+    else
+      alert(resBody.status)
   }
 
   useEffect(() => {
@@ -42,8 +51,8 @@ export default function Profile() {
               }
               
             </p>
-            <></>
           </div>
+          { modal && <TwoFactorModal/> }
         </section> :
         <section className="bg-ct-blue-600 min-h-screen">
         <div className="max-w-4xl mx-auto bg-ct-dark-100 rounded-md h-[20rem] flex justify-center items-center">

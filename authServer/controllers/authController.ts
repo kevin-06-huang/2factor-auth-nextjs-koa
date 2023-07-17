@@ -43,7 +43,7 @@ const LoginUser = async (ctx: Koa.Context) => {
     }
   } catch (err) {
     ctx.status = 409
-    ctx.body = 'rejected'
+    ctx.body = { status: 'rejected' }
   }
 }
 
@@ -82,7 +82,7 @@ const GenerateOTP = async (ctx: Koa.Context) => {
           otp_base32: base32Secret,
         },
       })
-      
+
       ctx.status = 200
       ctx.body = {
         base32Secret,
@@ -91,7 +91,7 @@ const GenerateOTP = async (ctx: Koa.Context) => {
     }
   } catch (err) {
     ctx.status = 500
-    ctx.body = 'error'
+    ctx.body = { status: 'error' }
   }
 }
 
