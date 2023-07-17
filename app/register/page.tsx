@@ -16,7 +16,7 @@ export default function Home() {
         password: event.target.password.value
       })
     })
-    // router.push('/login')
+    router.push('/login')
   }
   return (
     <>
