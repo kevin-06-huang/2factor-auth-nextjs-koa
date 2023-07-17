@@ -14,7 +14,7 @@ const RegisterUser = async (ctx: Koa.Context) => {
     ctx.body = 'accepted'
   } catch (err) {
     ctx.status = 409
-    ctx.body = 'rejected'
+    ctx.body = { status: 'rejected' }
   }
 }
 
@@ -25,11 +25,11 @@ const LoginUser = async (ctx: Koa.Context) => {
     
     if(!user) {
       ctx.status = 404
-      ctx.body = 'fail to find user'
+      ctx.body = { status: 'fail to find user' }
     }
     else if(password !== user!.password) {
       ctx.status = 401
-      ctx.body = 'password incorrect'
+      ctx.body = { status: 'password incorrect' }
     }
     else {
       ctx.status = 200
