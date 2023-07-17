@@ -19,7 +19,11 @@ const RegisterUser = async (ctx: Koa.Context) => {
 }
 
 const LoginUser = async (ctx: Koa.Context) => {
-  console.log(ctx)
+  try {
+
+  } catch (err) {
+    
+  }
 }
 
 const GenerateOTP = async (ctx: Koa.Context) => {
