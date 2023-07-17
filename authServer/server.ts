@@ -1,4 +1,5 @@
 import Koa from "koa"
+import cors from "@koa/cors"
 import 'dotenv/config'
 
 import { PrismaClient } from "@prisma/client"
@@ -10,7 +11,7 @@ const PORT = process.env.PORT || 3000
 
 async function main() {
   const app = new Koa()
-
+  app.use(cors())
   app.use(authRouter.routes())
 
   app.listen(PORT, () => {

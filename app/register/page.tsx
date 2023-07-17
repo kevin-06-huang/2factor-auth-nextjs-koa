@@ -6,7 +6,10 @@ export default function Home() {
   const router = useRouter()
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault()
-    router.push('/login')
+    fetch('http://localhost:3000/register', {
+      method: "POST",
+    })
+    // router.push('/login')
   }
   return (
     <>
