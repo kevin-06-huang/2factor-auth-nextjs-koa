@@ -1,11 +1,18 @@
+'use client'
 import Link from "next/link"
+import { useRouter } from 'next/navigation'
 
 export default function Home() {
+  const router = useRouter()
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault()
+    router.push('/login')
+  }
   return (
     <>
       <section className="bg-ct-blue-600 min-h-screen">
         <div className="max-w-4xl mx-auto bg-ct-dark-100 rounded-md h-[20rem] flex justify-center items-center">
-          <form className="font-semibold" action="/register" method="post">
+          <form className="font-semibold" onSubmit={handleSubmit}>
             <div className="ml-9">
               <label htmlFor="email">Email:</label>
               <input type="text" id="email" name="email" className="ml-2 text-black pl-2"/>
