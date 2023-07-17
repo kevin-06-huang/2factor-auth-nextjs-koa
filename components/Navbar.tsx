@@ -1,7 +1,11 @@
 'use client'
-import Link from "next/link";
+import Link from "next/link"
+import useStore from "@/app/store/auth"
 
 const Navbar = () => {
+  const store = useStore()
+  const user = store.authUser
+  
   return (
     <div className="navbar bg-base-100 justify-end">
       <div className="flex-none">
