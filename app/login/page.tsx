@@ -2,7 +2,7 @@
 import Link from "next/link"
 import { useRouter } from 'next/navigation'
 
-export default function Home() {
+export default function Login() {
   const router = useRouter()
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
