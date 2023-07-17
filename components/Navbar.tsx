@@ -5,7 +5,7 @@ const Navbar = () => {
   return (
     <div className="navbar bg-base-100 justify-end">
       <div className="flex-none">
-        <ul className="menu menu-horizontal flex">
+        <ul className="menu menu-horizontal flex justify-end">
           <li>
             <Link href="/" className="m-2">Home</Link>
           </li>
