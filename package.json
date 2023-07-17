@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 5000",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -14,8 +14,10 @@
     "@types/react": "18.2.15",
     "@types/react-dom": "18.2.7",
     "autoprefixer": "10.4.14",
+    "dotenv": "^16.3.1",
     "eslint": "8.45.0",
     "eslint-config-next": "13.4.10",
+    "koa": "^2.14.2",
     "next": "13.4.10",
     "postcss": "8.4.26",
     "react": "18.2.0",
@@ -24,6 +26,7 @@
     "typescript": "5.1.6"
   },
   "devDependencies": {
+    "@types/koa": "^2.13.6",
     "ts-node": "^10.9.1"
   }
 }
