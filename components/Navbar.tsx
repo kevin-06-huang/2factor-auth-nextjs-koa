@@ -1,6 +1,6 @@
 'use client'
 import Link from "next/link"
-import useStore from "@/app/store/auth"
+import useStore from "@/store/auth"
 
 const Navbar = () => {
   const store = useStore()
