@@ -16,7 +16,7 @@ export default function Home() {
             </div>
             <div className="flex items-center mt-2 ml-12">
               <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Register</button>
-              <Link href="/login" className="ml-2 font-light block">I&apos;m a member</Link>
+              <Link href="/login" className="ml-2 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Member</Link>
             </div>
           </form>
         </div>
