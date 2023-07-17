@@ -4,9 +4,9 @@ import { useRouter } from 'next/navigation'
 
 export default function Home() {
   const router = useRouter()
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
-    fetch('http://localhost:3000/login', {
+    const res = fetch('http://localhost:3000/login', {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -16,6 +16,7 @@ export default function Home() {
         password: event.target.password.value
       })
     })
+    console.log(await (await res).json())
     //router.push('/login')
   }
   return (

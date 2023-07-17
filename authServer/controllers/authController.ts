@@ -4,7 +4,7 @@ import { prisma } from "../server";
 const RegisterUser = async (ctx: Koa.Context) => {
   try {
     const { email, password } = ctx.request.body as any
-    const res = await prisma.user.create({
+    await prisma.user.create({
       data: {
         email,
         password
@@ -20,9 +20,27 @@ const RegisterUser = async (ctx: Koa.Context) => {
 
 const LoginUser = async (ctx: Koa.Context) => {
   try {
-
-  } catch (err) {
+    const { email, password } = ctx.request.body as any
+    const user = await prisma.user.findUnique({where: { email }})
     
+    if(!user) {
+      ctx.status = 404
+      ctx.body = 'fail to find user'
+    }
+    else if(password !== user!.password) {
+      ctx.status = 401
+      ctx.body = 'password incorrect'
+    }
+    else {
+      ctx.status = 200
+      ctx.body = {
+        email: user!.email,
+        otp_enabled: user!.otp_enabled
+      }
+    }
+  } catch (err) {
+    ctx.status = 409
+    ctx.body = 'rejected'
   }
 }
 
