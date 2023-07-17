@@ -16,8 +16,12 @@ export default function Home() {
         password: event.target.password.value
       })
     })
-    console.log(await (await res).json())
-    //router.push('/login')
+    const resBody = await (await res).json()
+    if(!resBody.status) {
+      router.push('/profile')
+    }
+    else
+      alert(resBody.status)
   }
   return (
     <>
