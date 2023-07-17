@@ -8,11 +8,11 @@ export default function Home() {
           <form className="font-semibold" action="/register" method="post">
             <div className="ml-9">
               <label htmlFor="email">Email:</label>
-              <input type="text" id="email" name="email" className="ml-2 text-black"/>
+              <input type="text" id="email" name="email" className="ml-2 text-black pl-2"/>
             </div>
             <div className="flex items-center mt-2">
               <label htmlFor="password" className="block">Password:</label>
-              <input type="text" id="password" name="password" className="ml-2 text-black"/>
+              <input type="password" id="password" name="password" className="ml-2 text-black pl-2"/>
             </div>
             <div className="flex items-center mt-2 ml-12">
               <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Register</button>
