@@ -46,7 +46,9 @@ export default function Profile() {
       });
 
       const resBody = await (await res).json();
-      console.log(resBody);
+      if (!resBody.status) {
+        store.setAuthUser(resBody);
+      } else alert(resBody.status);
     } catch (err) {
       console.error(err);
     }
