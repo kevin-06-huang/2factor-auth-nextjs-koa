@@ -17,7 +17,7 @@ This is a demo project showcasing two-factor authentication (2FA) implementation
 
 - `authServer`: Contains the server-side code for authentication.
 - `prisma`: Contains the Prisma schema for database configuration.
-- `src`: Contains the client-side code and Next.js pages.
+- `root directory`: Contains the client-side code and Next.js pages.
 
 ## Scripts
 
