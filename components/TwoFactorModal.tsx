@@ -14,6 +14,10 @@ const TwoFactorModal: FC<TwoFactorModalProps> = ({
 }) => {
   const [qrCodeUrl, setQrCodeUrl] = useState("");
 
+  const verifyOTP = async (event: React.FormEvent) => {
+
+  }
+
   useEffect(() => {
     QRCode.toDataURL(otpAuthUrl).then(setQrCodeUrl);
   }, []);
@@ -33,6 +37,26 @@ const TwoFactorModal: FC<TwoFactorModalProps> = ({
                   alt="qrcode url"
                 />
               </div>
+            </div>
+            <div className="flex justify-center">
+              <form onSubmit={verifyOTP}>
+                <input
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-30 p-2.5"
+                  placeholder="Authentication Code"
+                />
+                <div className="mb-2 mt-2">
+                  <button type="submit" className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                    Activate
+                  </button>
+                  <button
+                    type="button"
+                    className="ml-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                    onClick={closeModal}
+                  >
+                    Close
+                  </button>
+                </div>
+              </form>
             </div>
         </div>
       </div>
