@@ -99,8 +99,8 @@ const VerifyOTP = async (ctx: Koa.Context) => {
     const user = await prisma.user.findUnique({ where: { email } });
 
     if (!user) {
-      ctx.status = 401;
-      ctx.body = { status: "token invalid or user doesn't exist" };
+      ctx.status = 404;
+      ctx.body = { status: "fail to find user" };
     } else {
       const totp = new OTPAuth.TOTP({
         issuer: "Kevin Huang",
@@ -142,8 +142,8 @@ const ValidateOTP = async (ctx: Koa.Context) => {
     const user = await prisma.user.findUnique({ where: { email } });
 
     if (!user) {
-      ctx.status = 401;
-      ctx.body = { status: "token invalid" };
+      ctx.status = 404;
+      ctx.body = { status: "fail to find user" };
     } else {
       const totp = new OTPAuth.TOTP({
         issuer: "Kevin Huang",
@@ -170,7 +170,31 @@ const ValidateOTP = async (ctx: Koa.Context) => {
 };
 
 const DisableOTP = async (ctx: Koa.Context) => {
-  console.log(ctx);
+  try {
+    const { email } = ctx.request.body as any;
+    const user = await prisma.user.findUnique({ where: { email } });
+
+    if (!user) {
+      ctx.status = 404;
+      ctx.body = { status: "fail to find user" };
+    } else {
+      const updatedUser = await prisma.user.update({
+        where: { email },
+        data: {
+          otp_enabled: false,
+        },
+      });
+
+      ctx.status = 200;
+      ctx.body = {
+        email,
+        otp_enabled: updatedUser.otp_enabled,
+      };
+    }
+  } catch (err) {
+    ctx.status = 500;
+    ctx.body = { status: "error" };
+  }
 };
 
 const authController = {
