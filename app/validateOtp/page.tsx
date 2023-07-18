@@ -9,23 +9,27 @@ export default function ValidateOtp() {
   const user = store.authUser;
 
   const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-    const res = fetch("http://localhost:3000/otp/validate", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        token: event.target.otp.value,
-        email: user!.email
-      }),
-    });
+    try {
+      event.preventDefault();
+      const res = fetch("http://localhost:3000/otp/validate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          token: event.target.otp.value,
+          email: user!.email,
+        }),
+      });
 
-    const resBody = await (await res).json();
-    if (!resBody.status) router.push("/profile");
-    else {
-      alert(resBody.status);
-      router.push("/login");
+      const resBody = await (await res).json();
+      if (!resBody.status) router.push("/profile");
+      else {
+        alert(resBody.status);
+        router.push("/login");
+      }
+    } catch (err) {
+      console.error(err);
     }
   };
 

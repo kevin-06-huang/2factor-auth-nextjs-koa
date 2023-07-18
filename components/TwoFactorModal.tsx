@@ -17,8 +17,8 @@ const TwoFactorModal: FC<TwoFactorModalProps> = ({
   const [qrCodeUrl, setQrCodeUrl] = useState("");
 
   const verifyOTP = async (event: React.FormEvent) => {
-    event.preventDefault();
     try {
+      event.preventDefault();
       const res = fetch("http://localhost:3000/otp/verify", {
         method: "POST",
         headers: {

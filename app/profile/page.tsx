@@ -12,21 +12,32 @@ export default function Profile() {
   const [otpAuthUrl, setOtpAuthUrl] = useState("");
 
   const generateQrCode = async () => {
-    const res = fetch("http://localhost:3000/otp/generate", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: user!.email,
-      }),
-    });
+    try {
+      const res = fetch("http://localhost:3000/otp/generate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: user!.email,
+        }),
+      });
 
-    const resBody = await (await res).json();
-    if (!resBody.status) {
-      setOtpAuthUrl(resBody.otpAuthUrl);
-      setModal(true);
-    } else alert(resBody.status);
+      const resBody = await (await res).json();
+      if (!resBody.status) {
+        setOtpAuthUrl(resBody.otpAuthUrl);
+        setModal(true);
+      } else alert(resBody.status);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const disable2FA = async () => {
+    try {
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   useEffect(() => {
@@ -50,7 +61,10 @@ export default function Profile() {
                   Enable 2fa
                 </button>
               ) : (
-                <button className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded block mt-4 ml-24">
+                <button
+                  className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded block mt-4 ml-24"
+                  onClick={disable2FA}
+                >
                   Disable 2fa
                 </button>
               )}

@@ -140,7 +140,7 @@ const ValidateOTP = async (ctx: Koa.Context) => {
   try {
     const { token, email } = ctx.request.body as any;
     const user = await prisma.user.findUnique({ where: { email } });
-    
+
     if (!user) {
       ctx.status = 401;
       ctx.body = { status: "token invalid" };

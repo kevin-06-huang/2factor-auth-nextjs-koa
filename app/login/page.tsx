@@ -7,23 +7,27 @@ export default function Login() {
   const router = useRouter();
   const store = useStore();
   const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-    const res = fetch("http://localhost:3000/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: event.target.email.value,
-        password: event.target.password.value,
-      }),
-    });
-    const resBody = await (await res).json();
-    if (!resBody.status) {
-      store.setAuthUser(resBody);
-      if (resBody.otp_enabled) router.push("/validateOtp");
-      else router.push("/profile");
-    } else alert(resBody.status);
+    try {
+      event.preventDefault();
+      const res = fetch("http://localhost:3000/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: event.target.email.value,
+          password: event.target.password.value,
+        }),
+      });
+      const resBody = await (await res).json();
+      if (!resBody.status) {
+        store.setAuthUser(resBody);
+        if (resBody.otp_enabled) router.push("/validateOtp");
+        else router.push("/profile");
+      } else alert(resBody.status);
+    } catch (err) {
+      console.error(err);
+    }
   };
   return (
     <section className="bg-ct-blue-600 min-h-screen">
