@@ -1,5 +1,6 @@
 import { FC, useEffect, useState } from 'react'
 import QRCode from 'qrcode'
+import useStore from "@/store/auth"
 
 type TwoFactorModalProps = {
   email: string;
@@ -12,21 +13,31 @@ const TwoFactorModal: FC<TwoFactorModalProps> = ({
   otpAuthUrl,
   closeModal
 }) => {
-  const [qrCodeUrl, setQrCodeUrl] = useState("");
+  const store = useStore()
+  const [qrCodeUrl, setQrCodeUrl] = useState("")
 
   const verifyOTP = async (event: React.FormEvent) => {
     event.preventDefault()
     try {
       const res = fetch('http://localhost:3000/otp/verify', {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        token: event.target.otp.value,
-        email
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          token: event.target.otp.value,
+          email
+        })
       })
-    })
+
+      const resBody = await (await res).json()
+      
+      if(!resBody.status)
+        store.setAuthUser(resBody)
+      else
+        alert(resBody.status)
+
+      closeModal()
     } catch (err) {
       alert(err)
     }
