@@ -139,8 +139,30 @@ const VerifyOTP = async (ctx: Koa.Context) => {
 const ValidateOTP = async (ctx: Koa.Context) => {
   try {
     const { token, email } = ctx.request.body as any;
-    console.log(token)
-    console.log(email)
+    const user = await prisma.user.findUnique({ where: { email } });
+    
+    if (!user) {
+      ctx.status = 401;
+      ctx.body = { status: "token invalid" };
+    } else {
+      const totp = new OTPAuth.TOTP({
+        issuer: "Kevin Huang",
+        label: "2FA Example",
+        algorithm: "SHA1",
+        digits: 6,
+        period: 15,
+        secret: user.otp_base32!,
+      });
+
+      const delta = totp.validate({ token });
+      if (delta === null) {
+        ctx.status = 401;
+        ctx.body = { status: "token invalid" };
+      } else {
+        ctx.status = 200;
+        ctx.body = {};
+      }
+    }
   } catch (err) {
     ctx.status = 500;
     ctx.body = { status: "error" };
