@@ -35,6 +35,18 @@ export default function Profile() {
 
   const disable2FA = async () => {
     try {
+      const res = fetch("http://localhost:3000/otp/disable", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: user!.email,
+        }),
+      });
+
+      const resBody = await (await res).json();
+      console.log(resBody);
     } catch (err) {
       console.error(err);
     }
