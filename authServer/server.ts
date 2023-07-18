@@ -1,24 +1,24 @@
-import Koa from "koa"
-import bodyparser from "koa-bodyparser"
-import cors from "@koa/cors"
-import 'dotenv/config'
+import Koa from "koa";
+import bodyparser from "koa-bodyparser";
+import cors from "@koa/cors";
+import "dotenv/config";
 
-import { PrismaClient } from "@prisma/client"
-export const prisma = new PrismaClient()
+import { PrismaClient } from "@prisma/client";
+export const prisma = new PrismaClient();
 
 import authRouter from "./routes/authApi";
 
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 3000;
 
 async function main() {
-  const app = new Koa()
-  app.use(bodyparser())
-  app.use(cors())
-  app.use(authRouter.routes())
+  const app = new Koa();
+  app.use(bodyparser());
+  app.use(cors());
+  app.use(authRouter.routes());
 
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}.`);
-  })
+  });
 }
 
 main()

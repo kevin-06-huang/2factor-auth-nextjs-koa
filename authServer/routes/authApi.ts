@@ -1,7 +1,7 @@
-import Router from "koa-router"
+import Router from "koa-router";
 import authController from "../controllers/authController";
 
-const router = new Router()
+const router = new Router();
 
 router.post("/register", authController.RegisterUser);
 router.post("/login", authController.LoginUser);
