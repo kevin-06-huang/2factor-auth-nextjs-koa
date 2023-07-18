@@ -7,17 +7,20 @@ This is a demo project showcasing two-factor authentication (2FA) implementation
 1. Clone the repository.
 2. Navigate to the project directory.
 3. Run `npm install` to install the project dependencies.
+4. Make a `.env` file at root directory and supply a Postgres database for the environment variable `DATABASE_URL`.
+5. Run `db:push` to apply the prisma schema to the Postgres database.
 
 ## Usage
 
-1. Run `npm run dev` to start the development server on port 5000.
-2. Access the demo application in your web browser at `http://localhost:5000`.
+1. Run `npm run server` to start the backend server on port 3000.
+2. Run `npm run dev` to start the development server for Next.js on port 5000.
+3. Access the demo application in your web browser at `http://localhost:5000`.
 
 ## Project Structure
 
+- `root directory`: Contains the client-side code and Next.js pages.
 - `authServer`: Contains the server-side code for authentication.
 - `prisma`: Contains the Prisma schema for database configuration.
-- `root directory`: Contains the client-side code and Next.js pages.
 
 ## Scripts
 
