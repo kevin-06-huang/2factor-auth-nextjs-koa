@@ -137,7 +137,14 @@ const VerifyOTP = async (ctx: Koa.Context) => {
 };
 
 const ValidateOTP = async (ctx: Koa.Context) => {
-  console.log(ctx);
+  try {
+    const { token, email } = ctx.request.body as any;
+    console.log(token)
+    console.log(email)
+  } catch (err) {
+    ctx.status = 500;
+    ctx.body = { status: "error" };
+  }
 };
 
 const DisableOTP = async (ctx: Koa.Context) => {

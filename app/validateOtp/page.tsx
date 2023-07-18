@@ -8,7 +8,21 @@ export default function ValidateOtp() {
   const router = useRouter();
   const user = store.authUser;
 
-  const handleSubmit = () => {};
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    const res = fetch("http://localhost:3000/otp/validate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        token: event.target.otp.value,
+        email: user!.email
+      }),
+    });
+    const resBody = await (await res).json();
+    console.log(resBody);
+  };
 
   useEffect(() => {
     if (!store.authUser) {
