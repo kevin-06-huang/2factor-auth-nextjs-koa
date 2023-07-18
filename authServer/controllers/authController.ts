@@ -10,7 +10,7 @@ const RegisterUser = async (ctx: Koa.Context) => {
     await prisma.user.create({
       data: {
         email,
-        password,
+        password: crypto.createHash("sha256").update(password).digest("hex"),
       },
     });
     ctx.status = 200;
@@ -29,7 +29,7 @@ const LoginUser = async (ctx: Koa.Context) => {
     if (!user) {
       ctx.status = 404;
       ctx.body = { status: "fail to find user" };
-    } else if (password !== user!.password) {
+    } else if (crypto.createHash("sha256").update(password).digest("hex") !== user!.password) {
       ctx.status = 401;
       ctx.body = { status: "password incorrect" };
     } else {
