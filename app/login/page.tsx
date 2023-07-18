@@ -20,8 +20,11 @@ export default function Login() {
     })
     const resBody = await (await res).json()
     if(!resBody.status) {
-      store.setAuthUser(resBody);
-      router.push('/profile')
+      store.setAuthUser(resBody)
+      if(resBody.otp_enabled)
+        router.push('/validateOtp')
+      else
+        router.push('/profile')
     }
     else
       alert(resBody.status)
