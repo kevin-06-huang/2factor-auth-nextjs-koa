@@ -2,10 +2,13 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Event } from "../../types";
+import { useRef } from "react";
 
 export default function Register() {
   const router = useRouter();
-  const handleSubmit = (event: Event) => {
+  const email = useRef<HTMLInputElement>(null);
+  const password = useRef<HTMLInputElement>(null);
+  const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     fetch("http://localhost:3000/register", {
       method: "POST",
@@ -13,8 +16,8 @@ export default function Register() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        email: event.target.email!.value,
-        password: event.target.password!.value,
+        email: email.current!.value,
+        password: password.current!.value,
       }),
     });
     router.push("/login");
@@ -22,14 +25,13 @@ export default function Register() {
   return (
     <section className="bg-ct-blue-600 min-h-screen">
       <div className="max-w-4xl mx-auto bg-ct-dark-100 rounded-md h-[20rem] flex justify-center items-center">
-        <form className="font-semibold" onSubmit={handleSubmit as any}>
+        <form className="font-semibold" onSubmit={handleSubmit}>
           <div className="ml-9">
             <label htmlFor="email">Email:</label>
             <input
               type="text"
-              id="email"
-              name="email"
               className="ml-2 text-black pl-2"
+              ref={email}
             />
           </div>
           <div className="flex items-center mt-2">
@@ -38,9 +40,8 @@ export default function Register() {
             </label>
             <input
               type="password"
-              id="password"
-              name="password"
               className="ml-2 text-black pl-2"
+              ref={password}
             />
           </div>
           <div className="flex items-center mt-2 ml-12">

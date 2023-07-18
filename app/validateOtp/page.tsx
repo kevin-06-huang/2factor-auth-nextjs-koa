@@ -1,15 +1,15 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import useStore from "@/store/auth";
-import { Event } from "../../types";
 
 export default function ValidateOtp() {
   const store = useStore();
   const router = useRouter();
   const user = store.authUser;
+  const otp = useRef<HTMLInputElement>(null);
 
-  const handleSubmit = async (event: Event) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     try {
       event.preventDefault();
       const res = fetch("http://localhost:3000/otp/validate", {
@@ -18,7 +18,7 @@ export default function ValidateOtp() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          token: event.target.otp!.value,
+          token: otp.current!.value,
           email: user!.email,
         }),
       });
@@ -50,12 +50,12 @@ export default function ValidateOtp() {
                 Enter QR Code
               </h4>
               <div className="flex justify-center">
-                <form onSubmit={handleSubmit as any}>
+                <form onSubmit={handleSubmit}>
                   <div className="flex mb-2">
                     <input
-                      name="otp"
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-30 p-2.5"
                       placeholder="Authentication Code"
+                      ref={otp}
                     />
                     <button
                       type="submit"

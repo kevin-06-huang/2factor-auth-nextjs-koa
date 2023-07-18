@@ -1,7 +1,7 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import QRCode from "qrcode";
 import useStore from "@/store/auth";
-import { Event, TwoFactorModalProps } from "../types";
+import { TwoFactorModalProps } from "../types";
 
 const TwoFactorModal: FC<TwoFactorModalProps> = ({
   email,
@@ -10,8 +10,9 @@ const TwoFactorModal: FC<TwoFactorModalProps> = ({
 }) => {
   const store = useStore();
   const [qrCodeUrl, setQrCodeUrl] = useState("");
+  const otp = useRef<HTMLInputElement>(null);
 
-  const verifyOTP = async (event: Event) => {
+  const verifyOTP = async (event: React.FormEvent) => {
     try {
       event.preventDefault();
       const res = fetch("http://localhost:3000/otp/verify", {
@@ -20,7 +21,7 @@ const TwoFactorModal: FC<TwoFactorModalProps> = ({
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          token: event.target.otp!.value,
+          token: otp.current!.value,
           email,
         }),
       });
@@ -57,11 +58,11 @@ const TwoFactorModal: FC<TwoFactorModalProps> = ({
             </div>
           </div>
           <div className="flex justify-center">
-            <form onSubmit={verifyOTP as any}>
+            <form onSubmit={verifyOTP}>
               <input
-                name="otp"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-30 p-2.5"
                 placeholder="Authentication Code"
+                ref={otp}
               />
               <div className="mb-2 mt-2">
                 <button

@@ -2,12 +2,14 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import useStore from "@/store/auth";
-import { Event } from "../../types";
+import { useRef } from "react";
 
 export default function Login() {
   const router = useRouter();
   const store = useStore();
-  const handleSubmit = async (event: Event) => {
+  const email = useRef<HTMLInputElement>(null);
+  const password = useRef<HTMLInputElement>(null);
+  const handleSubmit = async (event: React.FormEvent) => {
     try {
       event.preventDefault();
       const res = fetch("http://localhost:3000/login", {
@@ -16,8 +18,8 @@ export default function Login() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          email: event.target.email!.value,
-          password: event.target.password!.value,
+          email: email.current!.value,
+          password: password.current!.value,
         }),
       });
       const resBody = await (await res).json();
@@ -33,14 +35,13 @@ export default function Login() {
   return (
     <section className="bg-ct-blue-600 min-h-screen">
       <div className="max-w-4xl mx-auto bg-ct-dark-100 rounded-md h-[20rem] flex justify-center items-center">
-        <form className="font-semibold" onSubmit={handleSubmit as any}>
+        <form className="font-semibold" onSubmit={handleSubmit}>
           <div className="ml-9">
             <label htmlFor="email">Email:</label>
             <input
               type="text"
-              id="email"
-              name="email"
               className="ml-2 text-black pl-2"
+              ref={email}
             />
           </div>
           <div className="flex items-center mt-2">
@@ -49,9 +50,8 @@ export default function Login() {
             </label>
             <input
               type="password"
-              id="password"
-              name="password"
               className="ml-2 text-black pl-2"
+              ref={password}
             />
           </div>
           <div className="flex items-center mt-2 ml-12">
