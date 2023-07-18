@@ -1,7 +1,6 @@
 "use client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Event } from "../../types";
 import { useRef } from "react";
 
 export default function Register() {
