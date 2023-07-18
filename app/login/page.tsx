@@ -2,11 +2,12 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import useStore from "@/store/auth";
+import { Event } from "../../types";
 
 export default function Login() {
   const router = useRouter();
   const store = useStore();
-  const handleSubmit = async (event: React.FormEvent) => {
+  const handleSubmit = async (event: Event) => {
     try {
       event.preventDefault();
       const res = fetch("http://localhost:3000/login", {
@@ -15,8 +16,8 @@ export default function Login() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          email: event.target.email.value,
-          password: event.target.password.value,
+          email: event.target.email!.value,
+          password: event.target.password!.value,
         }),
       });
       const resBody = await (await res).json();
@@ -32,7 +33,7 @@ export default function Login() {
   return (
     <section className="bg-ct-blue-600 min-h-screen">
       <div className="max-w-4xl mx-auto bg-ct-dark-100 rounded-md h-[20rem] flex justify-center items-center">
-        <form className="font-semibold" onSubmit={handleSubmit}>
+        <form className="font-semibold" onSubmit={handleSubmit as any}>
           <div className="ml-9">
             <label htmlFor="email">Email:</label>
             <input

@@ -1,10 +1,11 @@
 "use client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { Event } from "../../types";
 
 export default function Register() {
   const router = useRouter();
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = (event: Event) => {
     event.preventDefault();
     fetch("http://localhost:3000/register", {
       method: "POST",
@@ -12,8 +13,8 @@ export default function Register() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        email: event.target.email.value,
-        password: event.target.password.value,
+        email: event.target.email!.value,
+        password: event.target.password!.value,
       }),
     });
     router.push("/login");
@@ -21,7 +22,7 @@ export default function Register() {
   return (
     <section className="bg-ct-blue-600 min-h-screen">
       <div className="max-w-4xl mx-auto bg-ct-dark-100 rounded-md h-[20rem] flex justify-center items-center">
-        <form className="font-semibold" onSubmit={handleSubmit}>
+        <form className="font-semibold" onSubmit={handleSubmit as any}>
           <div className="ml-9">
             <label htmlFor="email">Email:</label>
             <input
