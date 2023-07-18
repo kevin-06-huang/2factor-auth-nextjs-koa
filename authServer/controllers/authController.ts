@@ -3,14 +3,15 @@ import { prisma } from "../server";
 import crypto from "crypto";
 import { encode } from "hi-base32";
 import OTPAuth from "otpauth";
+import { KoaRequestBody } from "@/types";
 
 const RegisterUser = async (ctx: Koa.Context) => {
   try {
-    const { email, password } = ctx.request.body as any;
+    const { email, password } = ctx.request.body as KoaRequestBody;
     await prisma.user.create({
       data: {
         email,
-        password: crypto.createHash("sha256").update(password).digest("hex"),
+        password: crypto.createHash("sha256").update(password as string).digest("hex"),
       },
     });
     ctx.status = 200;
@@ -23,13 +24,13 @@ const RegisterUser = async (ctx: Koa.Context) => {
 
 const LoginUser = async (ctx: Koa.Context) => {
   try {
-    const { email, password } = ctx.request.body as any;
+    const { email, password } = ctx.request.body as KoaRequestBody;
     const user = await prisma.user.findUnique({ where: { email } });
 
     if (!user) {
       ctx.status = 404;
       ctx.body = { status: "fail to find user" };
-    } else if (crypto.createHash("sha256").update(password).digest("hex") !== user!.password) {
+    } else if (crypto.createHash("sha256").update(password as string).digest("hex") !== user!.password) {
       ctx.status = 401;
       ctx.body = { status: "password incorrect" };
     } else {
@@ -53,7 +54,7 @@ const generateRandomBase32 = () => {
 
 const GenerateOTP = async (ctx: Koa.Context) => {
   try {
-    const { email } = ctx.request.body as any;
+    const { email } = ctx.request.body as KoaRequestBody;
     const user = await prisma.user.findUnique({ where: { email } });
 
     if (!user) {
@@ -95,7 +96,7 @@ const GenerateOTP = async (ctx: Koa.Context) => {
 
 const VerifyOTP = async (ctx: Koa.Context) => {
   try {
-    const { token, email } = ctx.request.body as any;
+    const { token, email } = ctx.request.body as KoaRequestBody;
     const user = await prisma.user.findUnique({ where: { email } });
 
     if (!user) {
@@ -111,7 +112,9 @@ const VerifyOTP = async (ctx: Koa.Context) => {
         secret: user.otp_base32!,
       });
 
-      const delta = totp.validate({ token });
+      let delta = null;
+      if(token)
+        delta = totp.validate({ token });
       if (delta === null) {
         ctx.status = 401;
         ctx.body = { status: "token invalid" };
@@ -138,7 +141,7 @@ const VerifyOTP = async (ctx: Koa.Context) => {
 
 const ValidateOTP = async (ctx: Koa.Context) => {
   try {
-    const { token, email } = ctx.request.body as any;
+    const { token, email } = ctx.request.body as KoaRequestBody;
     const user = await prisma.user.findUnique({ where: { email } });
 
     if (!user) {
@@ -154,7 +157,9 @@ const ValidateOTP = async (ctx: Koa.Context) => {
         secret: user.otp_base32!,
       });
 
-      const delta = totp.validate({ token });
+      let delta = null;
+      if(token)
+        delta = totp.validate({ token });
       if (delta === null) {
         ctx.status = 401;
         ctx.body = { status: "token invalid" };
@@ -171,7 +176,7 @@ const ValidateOTP = async (ctx: Koa.Context) => {
 
 const DisableOTP = async (ctx: Koa.Context) => {
   try {
-    const { email } = ctx.request.body as any;
+    const { email } = ctx.request.body as KoaRequestBody;
     const user = await prisma.user.findUnique({ where: { email } });
 
     if (!user) {
