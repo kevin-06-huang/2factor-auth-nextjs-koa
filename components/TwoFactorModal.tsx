@@ -1,4 +1,16 @@
-const TwoFactorModal = () => {
+import { FC } from 'react'
+
+type TwoFactorModalProps = {
+  email: string;
+  otpAuthUrl: string;
+  closeModal: () => void;
+}
+
+const TwoFactorModal: FC<TwoFactorModalProps> = ({
+  email,
+  otpAuthUrl,
+  closeModal
+}) => {
   return (
     <div
       className="fixed top-0 right-0 left-0 z-50 w-full md:inset-0 md:h-full bg-[#222] bg-opacity-50"
@@ -8,6 +20,7 @@ const TwoFactorModal = () => {
           <h3 className="text-black">Two-Factor Authentication (2FA)</h3>
             <div>
               <h4 className="text-black">Scan QR Code</h4>
+              <h4 className="text-black">{otpAuthUrl}</h4>
             </div>
         </div>
       </div>

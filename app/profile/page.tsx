@@ -8,7 +8,8 @@ export default function Profile() {
   const store = useStore()
   const router = useRouter()
   const user = store.authUser
-  const [modal, setModal] = useState(false);
+  const [modal, setModal] = useState(false)
+  const [otpAuthUrl, setOtpAuthUrl] = useState("")
 
   const generateQrCode = async () => {
     const res = fetch('http://localhost:3000/otp/generate', {
@@ -23,6 +24,7 @@ export default function Profile() {
 
     const resBody = await (await res).json()
     if(!resBody.status) {
+      setOtpAuthUrl(resBody.otpAuthUrl)
       setModal(true)
     }
     else
@@ -52,7 +54,12 @@ export default function Profile() {
               
             </p>
           </div>
-          { modal && <TwoFactorModal/> }
+          { modal &&
+          <TwoFactorModal
+            email={user.email}
+            otpAuthUrl={otpAuthUrl}
+            closeModal={() => setModal(false)}
+          /> }
         </section> :
         <section className="bg-ct-blue-600 min-h-screen">
         <div className="max-w-4xl mx-auto bg-ct-dark-100 rounded-md h-[20rem] flex justify-center items-center">
