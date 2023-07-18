@@ -20,8 +20,13 @@ export default function ValidateOtp() {
         email: user!.email
       }),
     });
+
     const resBody = await (await res).json();
-    console.log(resBody);
+    if (!resBody.status) router.push("/profile");
+    else {
+      alert(resBody.status);
+      router.push("/login");
+    }
   };
 
   useEffect(() => {
