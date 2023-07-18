@@ -16,7 +16,20 @@ const TwoFactorModal: FC<TwoFactorModalProps> = ({
 
   const verifyOTP = async (event: React.FormEvent) => {
     event.preventDefault()
-    console.log(event.target.otp.value)
+    try {
+      const res = fetch('http://localhost:3000/otp/verify', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        token: event.target.otp.value,
+        email
+      })
+    })
+    } catch (err) {
+      alert(err)
+    }
   }
 
   useEffect(() => {
