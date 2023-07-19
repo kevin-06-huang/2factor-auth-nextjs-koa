@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "server": "ts-node authServer/server.ts",
+    "db:migrate": "npx prisma migrate dev --schema ./authServer/prisma/schema.prisma --name user-entity --create-only",
     "db:push": "npx prisma db push --schema ./authServer/prisma/schema.prisma",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx}\""
   },
