@@ -9,7 +9,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "2FA Next.js Demo",
-  description: "Monorepo attempt at Next.js",
+  description: "2FA demo in Next.js",
 };
 
 export default function RootLayout({
