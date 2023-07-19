@@ -19,7 +19,7 @@ export default function Profile() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          email: user!.email,
+          username: user!.username,
         }),
       });
 
@@ -41,7 +41,7 @@ export default function Profile() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          email: user!.email,
+          username: user!.username,
         }),
       });
 
@@ -66,17 +66,17 @@ export default function Profile() {
         <section className="bg-ct-blue-600 min-h-screen">
           <div className="max-w-4xl mx-auto bg-ct-dark-100 rounded-md h-[20rem] flex justify-center items-center">
             <p className="text-3xl font-semibold">
-              Profile of {user.email}!!!
+              Profile of {user.username}!!!
               {!user.otp_enabled ? (
                 <button
-                  className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded block mt-4 ml-24"
+                  className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded block mt-4 ml-4"
                   onClick={generateQrCode}
                 >
                   Enable 2fa
                 </button>
               ) : (
                 <button
-                  className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded block mt-4 ml-24"
+                  className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded block mt-4 ml-4"
                   onClick={disable2FA}
                 >
                   Disable 2fa
@@ -86,7 +86,7 @@ export default function Profile() {
           </div>
           {modal && (
             <TwoFactorModal
-              email={user.email}
+              username={user.username}
               otpAuthUrl={otpAuthUrl}
               closeModal={() => setModal(false)}
             />

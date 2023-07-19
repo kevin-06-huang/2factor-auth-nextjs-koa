@@ -7,10 +7,10 @@ import { KoaRequestBody } from "@/types";
 
 const RegisterUser = async (ctx: Koa.Context) => {
   try {
-    const { email, password } = ctx.request.body as KoaRequestBody;
+    const { username, password } = ctx.request.body as KoaRequestBody;
     await prisma.user.create({
       data: {
-        email,
+        username,
         password: crypto.createHash("sha256").update(password as string).digest("hex"),
       },
     });
@@ -24,8 +24,8 @@ const RegisterUser = async (ctx: Koa.Context) => {
 
 const LoginUser = async (ctx: Koa.Context) => {
   try {
-    const { email, password } = ctx.request.body as KoaRequestBody;
-    const user = await prisma.user.findUnique({ where: { email } });
+    const { username, password } = ctx.request.body as KoaRequestBody;
+    const user = await prisma.user.findUnique({ where: { username } });
 
     if (!user) {
       ctx.status = 404;
@@ -36,7 +36,7 @@ const LoginUser = async (ctx: Koa.Context) => {
     } else {
       ctx.status = 200;
       ctx.body = {
-        email: user!.email,
+        username: user!.username,
         otp_enabled: user!.otp_enabled,
       };
     }
@@ -54,8 +54,8 @@ const generateRandomBase32 = () => {
 
 const GenerateOTP = async (ctx: Koa.Context) => {
   try {
-    const { email } = ctx.request.body as KoaRequestBody;
-    const user = await prisma.user.findUnique({ where: { email } });
+    const { username } = ctx.request.body as KoaRequestBody;
+    const user = await prisma.user.findUnique({ where: { username } });
 
     if (!user) {
       ctx.status = 404;
@@ -75,7 +75,7 @@ const GenerateOTP = async (ctx: Koa.Context) => {
       const otpAuthUrl = totp.toString();
 
       await prisma.user.update({
-        where: { email },
+        where: { username },
         data: {
           otp_auth_url: otpAuthUrl,
           otp_base32: base32Secret,
@@ -96,8 +96,8 @@ const GenerateOTP = async (ctx: Koa.Context) => {
 
 const VerifyOTP = async (ctx: Koa.Context) => {
   try {
-    const { token, email } = ctx.request.body as KoaRequestBody;
-    const user = await prisma.user.findUnique({ where: { email } });
+    const { token, username } = ctx.request.body as KoaRequestBody;
+    const user = await prisma.user.findUnique({ where: { username } });
 
     if (!user) {
       ctx.status = 404;
@@ -120,7 +120,7 @@ const VerifyOTP = async (ctx: Koa.Context) => {
         ctx.body = { status: "token invalid" };
       } else {
         const updatedUser = await prisma.user.update({
-          where: { email },
+          where: { username },
           data: {
             otp_enabled: true,
           },
@@ -128,7 +128,7 @@ const VerifyOTP = async (ctx: Koa.Context) => {
 
         ctx.status = 200;
         ctx.body = {
-          email,
+          username,
           otp_enabled: updatedUser.otp_enabled,
         };
       }
@@ -141,8 +141,8 @@ const VerifyOTP = async (ctx: Koa.Context) => {
 
 const ValidateOTP = async (ctx: Koa.Context) => {
   try {
-    const { token, email } = ctx.request.body as KoaRequestBody;
-    const user = await prisma.user.findUnique({ where: { email } });
+    const { token, username } = ctx.request.body as KoaRequestBody;
+    const user = await prisma.user.findUnique({ where: { username } });
 
     if (!user) {
       ctx.status = 404;
@@ -176,15 +176,15 @@ const ValidateOTP = async (ctx: Koa.Context) => {
 
 const DisableOTP = async (ctx: Koa.Context) => {
   try {
-    const { email } = ctx.request.body as KoaRequestBody;
-    const user = await prisma.user.findUnique({ where: { email } });
+    const { username } = ctx.request.body as KoaRequestBody;
+    const user = await prisma.user.findUnique({ where: { username } });
 
     if (!user) {
       ctx.status = 404;
       ctx.body = { status: "fail to find user" };
     } else {
       const updatedUser = await prisma.user.update({
-        where: { email },
+        where: { username },
         data: {
           otp_enabled: false,
         },
@@ -192,7 +192,7 @@ const DisableOTP = async (ctx: Koa.Context) => {
 
       ctx.status = 200;
       ctx.body = {
-        email,
+        username,
         otp_enabled: updatedUser.otp_enabled,
       };
     }

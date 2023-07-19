@@ -5,7 +5,7 @@ import { useRef } from "react";
 
 export default function Register() {
   const router = useRouter();
-  const email = useRef<HTMLInputElement>(null);
+  const username = useRef<HTMLInputElement>(null);
   const password = useRef<HTMLInputElement>(null);
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -15,7 +15,7 @@ export default function Register() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        email: email.current!.value,
+        username: username.current!.value,
         password: password.current!.value,
       }),
     });
@@ -25,15 +25,15 @@ export default function Register() {
     <section className="bg-ct-blue-600 min-h-screen">
       <div className="max-w-4xl mx-auto bg-ct-dark-100 rounded-md h-[20rem] flex justify-center items-center">
         <form className="font-semibold" onSubmit={handleSubmit}>
-          <div className="ml-9">
-            <label htmlFor="email">Email:</label>
+          <div>
+            <label htmlFor="username">Username:</label>
             <input
               type="text"
               className="ml-2 text-black pl-2"
-              ref={email}
+              ref={username}
             />
           </div>
-          <div className="flex items-center mt-2">
+          <div className="flex items-center mt-2 ml-1">
             <label htmlFor="password" className="block">
               Password:
             </label>

@@ -8,7 +8,7 @@ datasource db {
 }
 
 model User {
-  email    String @unique
+  username    String @unique
   password String
 
   otp_enabled  Boolean @default(false)

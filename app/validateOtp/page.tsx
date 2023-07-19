@@ -19,7 +19,7 @@ export default function ValidateOtp() {
         },
         body: JSON.stringify({
           token: otp.current!.value,
-          email: user!.email,
+          username: user!.username,
         }),
       });
 

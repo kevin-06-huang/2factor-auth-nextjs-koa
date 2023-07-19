@@ -4,7 +4,7 @@ import useStore from "@/store/auth";
 import { TwoFactorModalProps } from "../types";
 
 const TwoFactorModal: FC<TwoFactorModalProps> = ({
-  email,
+  username,
   otpAuthUrl,
   closeModal,
 }) => {
@@ -22,7 +22,7 @@ const TwoFactorModal: FC<TwoFactorModalProps> = ({
         },
         body: JSON.stringify({
           token: otp.current!.value,
-          email,
+          username,
         }),
       });
 
