@@ -53,6 +53,7 @@ This is a demo project showcasing two-factor authentication (2FA) implementation
 
 - `@types/koa`, `@types/koa__cors`, `@types/koa-bodyparser`, `@types/koa-router`: TypeScript type definitions for Koa.
 - `@types/qrcode`: TypeScript type definitions for QR code generation.
+- `nodemon`: Monitor for changes in the development environment.
 - `prettier`, `prettier-plugin-tailwindcss`: Code formatting tools.
 - `prisma`: Prisma migration and database management tool.
 - `ts-node`: TypeScript execution and REPL for Node.js.
