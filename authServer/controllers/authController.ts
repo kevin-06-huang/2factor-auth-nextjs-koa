@@ -139,41 +139,6 @@ const VerifyOTP = async (ctx: Koa.Context) => {
   }
 };
 
-const ValidateOTP = async (ctx: Koa.Context) => {
-  try {
-    const { token, username } = ctx.request.body as KoaRequestBody;
-    const user = await prisma.user.findUnique({ where: { username } });
-
-    if (!user) {
-      ctx.status = 404;
-      ctx.body = { status: "fail to find user" };
-    } else {
-      const totp = new OTPAuth.TOTP({
-        issuer: "Kevin Huang",
-        label: "2FA Example",
-        algorithm: "SHA1",
-        digits: 6,
-        period: 15,
-        secret: user.otp_base32!,
-      });
-
-      let delta = null;
-      if(token)
-        delta = totp.validate({ token });
-      if (delta === null) {
-        ctx.status = 401;
-        ctx.body = { status: "token invalid" };
-      } else {
-        ctx.status = 200;
-        ctx.body = {};
-      }
-    }
-  } catch (err) {
-    ctx.status = 500;
-    ctx.body = { status: "error" };
-  }
-};
-
 const DisableOTP = async (ctx: Koa.Context) => {
   try {
     const { username } = ctx.request.body as KoaRequestBody;
@@ -207,7 +172,6 @@ const authController = {
   LoginUser,
   GenerateOTP,
   VerifyOTP,
-  ValidateOTP,
   DisableOTP,
 };
 

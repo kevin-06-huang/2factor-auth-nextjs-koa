@@ -12,7 +12,7 @@ export default function ValidateOtp() {
   const handleSubmit = async (event: React.FormEvent) => {
     try {
       event.preventDefault();
-      const res = fetch("http://localhost:3000/otp/validate", {
+      const res = fetch("http://localhost:3000/otp/verify", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
